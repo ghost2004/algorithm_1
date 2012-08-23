@@ -1,4 +1,4 @@
-
+import java.lang.IndexOutOfBoundsException;
 public class Percolation {
 	
 	private boolean matrix[][];
@@ -40,8 +40,10 @@ public class Percolation {
 	}
 	
 	// open site (row i, column j) if it is not already
-	public void open(int i, int j)
+	public void open(int i, int j) throws java.lang.IndexOutOfBoundsException
 	{
+		if (i>=side || j >=side)
+			throw new java.lang.IndexOutOfBoundsException();
 		matrix[i][j]=true;
 		// left
 		if(i>0 && matrix[i-1][j])
@@ -58,17 +60,20 @@ public class Percolation {
 	}
 	
 	// is site (row i, column j) open?
-	public boolean isOpen(int i, int j)
+	public boolean isOpen(int i, int j)throws java.lang.IndexOutOfBoundsException
 	{
+		if (i>=side || j >=side)
+			throw new java.lang.IndexOutOfBoundsException();
 		return matrix[i][j];
 	}
 	
 	// is site (row i, column j) full?
 	// A full site is an open site that can be connected to an open site in the top row via a chain of neighboring (left, right, up, down) open sites.
-	public boolean isFull(int i, int j) 
+	public boolean isFull(int i, int j) throws java.lang.IndexOutOfBoundsException
 	{
+		if (i>=side || j >=side)
+			throw new java.lang.IndexOutOfBoundsException();		
 		return (isOpen(i,j) && union.connected(getIndex(i,j), virtual_top));
-		
 	}
 	
 	

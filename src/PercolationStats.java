@@ -1,5 +1,7 @@
 import java.util.Random;
 import java.lang.Math;
+import java.lang.IllegalArgumentException;
+
 public class PercolationStats {
 	private Percolation model;
 	private double record[];
@@ -7,8 +9,10 @@ public class PercolationStats {
 	private double mean_value;
 	
 	// perform T independent computational experiments on an N-by-N grid
-	public PercolationStats(int N, int T)
+	public PercolationStats(int N, int T) throws Exception
 	{
+		if (N<=0 || T<=0)
+			throw new java.lang.IllegalArgumentException();
 		tried_times=T;
 		model= new Percolation(N);
 		Random rd1 = new Random();
@@ -69,17 +73,26 @@ public class PercolationStats {
 	
 	public static void main(String[] args)
 	{
-		int N = 200;// StdIn.readInt();
-		int T = 100;//StdIn.readInt();
-		PercolationStats percol=new PercolationStats(N,T);
-		double mean=percol.mean();
-		double stddev_vaule=percol.stddev();
-		double intval=(1.96*stddev_vaule)/Math.sqrt(T);
-		double intval1=mean-intval;
-		double intval2=mean+intval;
-		StdOut.println("mean                    ="+mean);
-		StdOut.println("stddev                  ="+stddev_vaule);
-		StdOut.println("95% confidence interval ="+intval1+", "+intval2);
+		int N = StdIn.readInt();
+		int T = StdIn.readInt();
+		try
+		{
+			PercolationStats percol=new PercolationStats(N,T);
+			double mean=percol.mean();
+			double stddev_vaule=percol.stddev();
+			double intval=(1.96*stddev_vaule)/Math.sqrt(T);
+			double intval1=mean-intval;
+			double intval2=mean+intval;
+			StdOut.println("mean                    ="+mean);
+			StdOut.println("stddev                  ="+stddev_vaule);
+			StdOut.println("95% confidence interval ="+intval1+", "+intval2);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 
 }

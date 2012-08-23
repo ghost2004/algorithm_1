@@ -63,5 +63,18 @@ public class Percolation {
 		return matrix[i][j];
 	}
 	
+	// is site (row i, column j) full?
+	// A full site is an open site that can be connected to an open site in the top row via a chain of neighboring (left, right, up, down) open sites.
+	public boolean isFull(int i, int j) 
+	{
+		return (isOpen(i,j) && union.connected(getIndex(i,j), virtual_top));
+		
+	}
+	
+	
+	public boolean percolates()
+	{
+		return union.connected(virtual_top, virtual_bottom);
+	}
 
 }

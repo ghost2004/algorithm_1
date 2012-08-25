@@ -45,31 +45,34 @@ public class Percolation {
     // open site (row i, column j) if it is not already
     public void open(int i, int j) throws Exception
     {
-        if (i >= side || j >= side 
-                || i < 0 || j < 0)
+        if (i > side || j > side 
+                || i <= 0 || j <= 0)
             throw new java.lang.IndexOutOfBoundsException();
-        matrix[i][j] = true;
+
+        int x = i-1;
+        int y = j-1;
+        matrix[x][y] = true;
         // left
-        if (i > 0 && matrix[i-1][j])
-            union.union(getIndex(i-1, j), getIndex(i, j));
+        if (x > 0 && matrix[x-1][y])
+            union.union(getIndex(x-1, y), getIndex(x, y));
         // right
-        if (i < side-1 && matrix[i+1][j])
-            union.union(getIndex(i+1, j), getIndex(i, j));
+        if (x < side-1 && matrix[x+1][y])
+            union.union(getIndex(x+1, y), getIndex(x, y));
         // up
-        if (j > 0 && matrix[i][j-1])
-            union.union(getIndex(i, j-1), getIndex(i, j));
+        if (y > 0 && matrix[x][y-1])
+            union.union(getIndex(x, y-1), getIndex(x, y));
         // down
-        if (j < side-1 && matrix[i][j+1])
-            union.union(getIndex(i, j+1), getIndex(i, j));
+        if (y < side-1 && matrix[x][y+1])
+            union.union(getIndex(x, y+1), getIndex(x, y));
     }
     
     // is site (row i, column j) open?
     public boolean isOpen(int i, int j)throws Exception
     {
-        if (i >= side || j >= side 
-                || i < 0 || j < 0)
+        if (i > side || j > side 
+                || i <= 0 || j <= 0)
             throw new java.lang.IndexOutOfBoundsException();
-        return matrix[i][j];
+        return matrix[i-1][j-1];
     }
     
     // is site (row i, column j) full?
@@ -78,10 +81,10 @@ public class Percolation {
     // a chain of neighboring (left, right, up, down) open sites.
     public boolean isFull(int i, int j) throws Exception
     {
-        if (i >= side || j >= side 
-                || i < 0 || j < 0)
+        if (i > side || j > side 
+                || i <= 0 || j <= 0)
             throw new java.lang.IndexOutOfBoundsException();        
-        return (isOpen(i, j) && union.connected(getIndex(i, j), virtualTop));
+        return (isOpen(i, j) && union.connected(getIndex(i-1, j-1), virtualTop));
     }
     
     

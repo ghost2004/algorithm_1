@@ -37,8 +37,8 @@ public class PercolationStats {
 
                 while (!gotit) {
                     int idx = rd1.nextInt(arraySize);
-                    int i = idx / N;
-                    int j = idx % N;
+                    int i = idx / N +1;
+                    int j = idx % N +1;
                     if (!model.isOpen(i, j))
                     {
                         gotit = true;

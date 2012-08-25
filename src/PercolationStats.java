@@ -67,6 +67,8 @@ public class PercolationStats {
      // sample standard deviation of percolation threshold
     public double stddev()
     {
+        if (triedTimes == 1)
+            return Double.NaN;
         double out = 0;
         for (int i = 0; i < triedTimes; i++)
         {

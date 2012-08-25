@@ -8,8 +8,9 @@ public class Percolation {
     private boolean[][] matrix;
     private WeightedQuickUnionUF union;
     private int virtualTop;
-    private int virtualBottom;
+    // private int virtualBottom;
     private int side;
+    private boolean percolatesFlag;
 
     // create N-by-N grid, with all sites blocked
     public Percolation(int N)
@@ -25,15 +26,17 @@ public class Percolation {
         union = new WeightedQuickUnionUF(N * N + 2);
         
         virtualTop = N * N;
-        virtualBottom = N * N + 1;
+        // virtualBottom = N * N + 1;
 
-        j = N * (N - 1);
+        // j = N * (N - 1);
         
         for (i = 0; i < N; i++) {
             union.union(i, virtualTop);
-            union.union(j + i, virtualBottom);
+            // union.union(j + i, virtualBottom);
         }
         side = N;
+        
+        percolatesFlag = false;
         
     }
     
@@ -64,6 +67,13 @@ public class Percolation {
         // down
         if (y < side-1 && matrix[x][y+1])
             union.union(getIndex(x, y+1), getIndex(x, y));
+        
+        // if it is the site at bottom line, check the grid percolates Flag
+        if (x == side-1) {
+            if (isFull(i, j))
+                percolatesFlag = true;
+        }
+            
     }
     
     // is site (row i, column j) open?
@@ -90,9 +100,7 @@ public class Percolation {
     
     public boolean percolates()
     {
-        if (side == 1)
-            return matrix[0][0];
-        return union.connected(virtualTop, virtualBottom);
+        return percolatesFlag;
     }
 
 }

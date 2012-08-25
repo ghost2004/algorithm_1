@@ -90,6 +90,8 @@ public class Percolation {
     
     public boolean percolates()
     {
+        if (side == 1)
+            return matrix[0][0];
         return union.connected(virtualTop, virtualBottom);
     }
 

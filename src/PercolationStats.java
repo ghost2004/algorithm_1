@@ -1,5 +1,5 @@
 import java.util.Random;
-import java.lang.Math;
+
 
 /**
  *
@@ -8,7 +8,7 @@ import java.lang.Math;
  */
 public class PercolationStats {
     private Percolation model;
-    private double record[];
+    private double[] record;
     private int triedTimes;
     private double meanValue;
 
@@ -28,20 +28,20 @@ public class PercolationStats {
 
         meanValue = 0;
         
-        for (int c=0;c<T;c++)
+        for (int c = 0; c < T; c++)
         {
             model = new Percolation(N);
-            int times=0;
+            int times = 0;
             while (!model.percolates()) {
                 boolean gotit = false;
 
                 while (!gotit) {
-                    int idx=rd1.nextInt(arraySize);
+                    int idx = rd1.nextInt(arraySize);
                     int i = idx / N;
                     int j = idx % N;
                     if (!model.isOpen(i, j))
                     {
-                        gotit=true;
+                        gotit = true;
                         model.open(i, j);
                     }
                     
@@ -51,11 +51,11 @@ public class PercolationStats {
                 
             }
             
-            record[c]=(double)times/arraySize;
-            meanValue+=record[c];
+            record[c] = (double) times/arraySize;
+            meanValue += record[c];
         }
         
-        meanValue/=T;
+        meanValue /= T;
     }
     
     // sample mean of percolation threshold
@@ -67,35 +67,39 @@ public class PercolationStats {
      // sample standard deviation of percolation threshold
     public double stddev()
     {
-        double out=0;
-        for (int i=0;i<triedTimes;i++)
+        double out = 0;
+        for (int i = 0; i < triedTimes; i++)
         {
-            out+=(record[i]-meanValue)*(record[i]-meanValue);
+            out += (record[i]-meanValue)*(record[i]-meanValue);
         }
-        out= Math.sqrt(out/(triedTimes-1));
+        out = Math.sqrt(out/(triedTimes-1));
         return out;
     }
     
     /**
      *
      * @param args String
+     * @throws Exception 
      */
-    public static void main( String[] args) {
+    public static void main(String[] args) throws Exception {
         int num = StdIn.readInt();
         int times = StdIn.readInt();
         try {
             PercolationStats percol = new PercolationStats(num, times);
-            double mean=percol.mean();
-            double stddev_vaule=percol.stddev();
-            double intval = (1.96*stddev_vaule)/Math.sqrt(times);
+            double mean = percol.mean();
+            double stdValue = percol.stddev();
+            double intval = (1.96*stdValue)/Math.sqrt(times);
             double intval1 = mean - intval;
             double intval2 = mean + intval;
             StdOut.println("mean                    ="+mean);
-            StdOut.println("stddev                  ="+stddev_vaule);
+            StdOut.println("stddev                  ="+stdValue);
             StdOut.println("95% confidence interval ="+intval1+", "+intval2);
             
         }
-        catch (Exception e)    {
+        catch (java.lang.IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        catch (java.lang.IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
         

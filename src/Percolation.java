@@ -45,7 +45,8 @@ public class Percolation {
     // open site (row i, column j) if it is not already
     public void open(int i, int j) throws Exception
     {
-        if (i >= side || j >= side)
+        if (i >= side || j >= side 
+                || i < 0 || j < 0)
             throw new java.lang.IndexOutOfBoundsException();
         matrix[i][j] = true;
         // left
@@ -65,7 +66,8 @@ public class Percolation {
     // is site (row i, column j) open?
     public boolean isOpen(int i, int j)throws Exception
     {
-        if (i >= side || j >= side)
+        if (i >= side || j >= side 
+                || i < 0 || j < 0)
             throw new java.lang.IndexOutOfBoundsException();
         return matrix[i][j];
     }
@@ -76,7 +78,8 @@ public class Percolation {
     // a chain of neighboring (left, right, up, down) open sites.
     public boolean isFull(int i, int j) throws Exception
     {
-        if (i >= side || j >= side)
+        if (i >= side || j >= side 
+                || i < 0 || j < 0)
             throw new java.lang.IndexOutOfBoundsException();        
         return (isOpen(i, j) && union.connected(getIndex(i, j), virtualTop));
     }

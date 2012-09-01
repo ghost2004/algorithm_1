@@ -103,7 +103,7 @@ public class Deque<Item> implements Iterable<Item> {
     // delete and return the item at the end
     public Item removeLast() {
         if (isEmpty())
-            return null;
+            throw new java.util.NoSuchElementException();
         Item item = last.item;
         last.item = null;
         if (size == 1) {
@@ -127,7 +127,7 @@ public class Deque<Item> implements Iterable<Item> {
     private class DequeIterator implements Iterator<Item> {
         private DequeNode current = first;
         public boolean hasNext() {
-            return (current.next != null);
+            return (current != null);
         }
         public void remove() {
             throw new java.lang.UnsupportedOperationException();

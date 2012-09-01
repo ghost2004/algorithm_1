@@ -32,8 +32,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // resize array to new capacity
     private void resize(int capacity)
     {
+
         Item[] copy = (Item[]) new Object[capacity];
-        copy = Arrays.copyOf(elementData, objSize);
+        for (int i = 0; i < objSize; i++)
+            copy[i] = elementData[i];
         elementData = copy;
         arraySize = capacity;
     }
@@ -50,13 +52,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (item == null)
             throw new java.lang.NullPointerException(); 
-        
+
         if (objSize == arraySize) {
             resize(arraySize*2);
         }
-        
+   
         elementData[objSize++] = item;
-
+        
     }
     
     // delete and return a random item

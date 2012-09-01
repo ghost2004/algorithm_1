@@ -48,6 +48,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     // add the item
     public void enqueue(Item item) {
+        if (item == null)
+            throw new java.lang.NullPointerException(); 
+        
         if (objSize == arraySize) {
             resize(arraySize*2);
         }

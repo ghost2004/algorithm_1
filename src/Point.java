@@ -10,12 +10,13 @@
  *
  *************************************************************************/
 
+
 import java.util.Comparator;
 
 public class Point implements Comparable<Point> {
 
     // compare points by slope
-    public final Comparator<Point> SLOPE_ORDER;       // YOUR DEFINITION HERE
+    public final Comparator<Point> SLOPE_ORDER = new SlopeOrder(); 
 
     private final int x;                              // x coordinate
     private final int y;                              // y coordinate
@@ -42,12 +43,48 @@ public class Point implements Comparable<Point> {
     // slope between this point and that point
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+        if (this.y == that.y)
+            return 0;
+        if (this.x == that.x) {
+            if (this.y > that.y)
+                return Double.NEGATIVE_INFINITY;
+            else
+                return Double.POSITIVE_INFINITY;
+        }
+            
+        
+        return ((that.y - this.y)/(that.x - this.x));
+                    
     }
 
     // is this point lexicographically smaller than that one?
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        if (this.y < that.y)
+            return -1;
+        else if (this.y == that.y) {
+            return this.x - that.x;
+        }
+        else
+            return 1;
+        
+    }
+    
+    
+    private class SlopeOrder implements Comparator<Point>
+    {
+        public int compare(Point p1, Point p2) {
+            double slope1 = slopeTo(p1);
+            double slope2 = slopeTo(p2);
+            if (slope1 < slope2)
+                return -1;
+            else if (slope1 == slope2)
+                return 0;
+            else
+                return 1;
+            
+        }
     }
 
     // return string representation of this point
@@ -55,6 +92,25 @@ public class Point implements Comparable<Point> {
         /* DO NOT MODIFY */
         return "(" + x + ", " + y + ")";
     }
+    
+    // get the Point array from text file
+    public static Point[] getFromText(String filename) {
+        Point[] pointArray;
+        
+        In in = new In(filename);
+        int N = in.readInt();
+        pointArray = new Point[N];
+        for (int i = 0; i < N; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            Point p = new Point(x, y);
+            pointArray[i] = p;
+        }
+
+        return pointArray;
+        
+    }
+   
 
     // unit test
     public static void main(String[] args) {

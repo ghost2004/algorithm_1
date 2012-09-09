@@ -10,7 +10,6 @@
  *
  *************************************************************************/
 
-
 import java.util.Comparator;
 
 public class Point implements Comparable<Point> {
@@ -96,7 +95,6 @@ public class Point implements Comparable<Point> {
     // get the Point array from text file
     public static Point[] getFromText(String filename) {
         Point[] pointArray;
-        
         In in = new In(filename);
         int N = in.readInt();
         pointArray = new Point[N];

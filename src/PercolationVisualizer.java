@@ -56,7 +56,7 @@ public class PercolationVisualizer {
     }
 
     public static void main(String[] args) throws Exception {
-        In in = new In("input20.txt");      // input file
+        In in = new In("assignment1_input20.txt");      // input file
         int N = in.readInt();         // N-by-N percolation system
 
         // repeatedly read in sites to open and draw resulting system

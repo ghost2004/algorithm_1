@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 
 public class Brute {
     private Point[] pointArray;
@@ -29,7 +29,7 @@ public class Brute {
             checkPoints(flag);
             return;
         }
-            
+        StdOut.println(index+" start:"+start+" length"+length);    
         flag[index] = start;
         combine(flag, index+1, start+1, length-1);
         combine(flag, index, start+1, length);
@@ -49,6 +49,10 @@ public class Brute {
         
         if (pointArray == null || pointArray.length < 4)
             return;
+        
+        StdOut.println("Total "+pointArray.length);
+        
+        Arrays.sort(pointArray);
         
         Brute brute = new Brute(pointArray);
         

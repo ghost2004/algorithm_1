@@ -8,7 +8,7 @@ public class Brute {
     }
 
 
-    public static void findPoints() {
+    private static void findPoints() {
         int[] flag = new int[POINTNUM];
         combine(flag, 0, 0, POINTNUM);
     }

@@ -3,10 +3,14 @@ import java.util.Arrays;
 public class Brute {
     private Point[] pointArray;
     private final int pointNumber = 4;
-    public Brute(Point[] array) {
-        this.pointArray = array;
+    public Brute() {
+        
     }
     
+    public void setPointArray(Point[] array) {
+        this.pointArray = array;
+    }
+
     public void findPoints() {
         int[] flag = new int[pointNumber];
         combine(flag, 0, 0, pointNumber);
@@ -47,8 +51,16 @@ public class Brute {
         String filename = args[0];
         
         Point[] pointArray;
-        
-        pointArray = Point.getFromText(filename);
+        In in = new In(filename);
+        int N = in.readInt();
+        pointArray = new Point[N];
+        for (int i = 0; i < N; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            Point p = new Point(x, y);
+            pointArray[i] = p;
+        }
+
         
         if (pointArray == null || pointArray.length < 4)
             return;
@@ -57,7 +69,9 @@ public class Brute {
         
         Arrays.sort(pointArray);
         
-        Brute brute = new Brute(pointArray);
+        Brute brute = new Brute();
+        
+        brute.setPointArray(pointArray);
         
         brute.findPoints();
        

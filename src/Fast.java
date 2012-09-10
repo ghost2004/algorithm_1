@@ -4,10 +4,17 @@ import java.util.Iterator;
 
 public class Fast {
     private Point[] pointArray;
+    
+   
     private final int pointNumber = 3;
-    public Fast(Point[] array) {
+    public Fast() {
+
+    }
+    
+    public void setPointArray(Point[] array) {
         this.pointArray = array;
     }
+
     
     public void findPoints() {
         int j;
@@ -83,14 +90,25 @@ public class Fast {
         
         Point[] pointArray;
         
-        pointArray = Point.getFromText(filename);
+        In in = new In(filename);
+        int N = in.readInt();
+        pointArray = new Point[N];
+        for (int i = 0; i < N; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            Point p = new Point(x, y);
+            pointArray[i] = p;
+        }
+
         
         if (pointArray == null || pointArray.length < 4)
             return;
         
         Arrays.sort(pointArray);
         
-        Fast fast = new Fast(pointArray);
+        Fast fast = new Fast();
+        
+        fast.setPointArray(pointArray);
                       
         fast.findPoints();
     }

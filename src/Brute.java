@@ -18,6 +18,7 @@ public class Brute {
             p[i] = pointArray[flag[i]];
         if (p[0].SLOPE_ORDER.compare(p[1], p[2]) == 0 
             && p[0].SLOPE_ORDER.compare(p[2], p[3]) == 0) {
+            StdOut.print(pointNumber+": ");
             for (int j = 0; j < pointNumber -1; j++)
                 StdOut.print(p[j].toString()+" -> ");
             StdOut.println(p[pointNumber -1]);
@@ -29,7 +30,9 @@ public class Brute {
             checkPoints(flag);
             return;
         }
-        StdOut.println(index+" start:"+start+" length"+length);    
+        if (start >= pointArray.length)
+            return;
+        //StdOut.println("index:"+index+" start:"+start+" length:"+length);    
         flag[index] = start;
         combine(flag, index+1, start+1, length-1);
         combine(flag, index, start+1, length);
@@ -50,7 +53,7 @@ public class Brute {
         if (pointArray == null || pointArray.length < 4)
             return;
         
-        StdOut.println("Total "+pointArray.length);
+        //StdOut.println("Total "+pointArray.length);
         
         Arrays.sort(pointArray);
         

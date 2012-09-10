@@ -3,26 +3,22 @@ import java.util.Vector;
 import java.util.Iterator;
 
 public class Fast {
-    private Point[] pointArray;
+    private static Point[] pointArray;
     
    
-    private final int pointNumber = 3;
+    private static final int POINTNUM = 3;
     public Fast() {
 
     }
     
-    public void setPointArray(Point[] array) {
-        this.pointArray = array;
-    }
-
     
-    public void findPoints() {
+    private static void findPoints() {
         int j;
         
         
         Vector<Point> vector = new Vector<Point>();
         
-        for (int i = 1; i <= pointArray.length - pointNumber; i++) {
+        for (int i = 1; i <= pointArray.length - POINTNUM; i++) {
             
             Point[] sortArray = new Point[pointArray.length];
             // Copy the point array for sorting
@@ -44,7 +40,7 @@ public class Fast {
                     vector.add(sortArray[j]);
                 }
                 else {
-                    if (vector.size() >= pointNumber) {
+                    if (vector.size() >= POINTNUM) {
                         int num = vector.size() + 1;
                         StdOut.print(num+": ");
                         StdOut.print(base.toString()+" -> ");
@@ -57,7 +53,7 @@ public class Fast {
                     
             }
             
-            if (vector.size() >= pointNumber) {
+            if (vector.size() >= POINTNUM) {
                 int num = vector.size() + 1;
                 StdOut.print(num+": ");
                 StdOut.print(base.toString()+" -> ");
@@ -69,7 +65,7 @@ public class Fast {
         
     }
     
-    private void printPoints(Vector<Point> vector) {
+    private static void printPoints(Vector<Point> vector) {
     
         Iterator<Point> iter = vector.iterator();
         
@@ -88,28 +84,26 @@ public class Fast {
         
         String filename = args[0];
         
-        Point[] pointArray;
+        Point[] pArray;
         
         In in = new In(filename);
         int N = in.readInt();
-        pointArray = new Point[N];
+        pArray = new Point[N];
         for (int i = 0; i < N; i++) {
             int x = in.readInt();
             int y = in.readInt();
             Point p = new Point(x, y);
-            pointArray[i] = p;
+            pArray[i] = p;
         }
 
         
-        if (pointArray == null || pointArray.length < 4)
+        if (pArray == null || pArray.length < 4)
             return;
         
-        Arrays.sort(pointArray);
+        Arrays.sort(pArray);
         
-        Fast fast = new Fast();
-        
-        fast.setPointArray(pointArray);
-                      
-        fast.findPoints();
+        pointArray = pArray;
+                   
+        findPoints();
     }
 }

@@ -42,7 +42,8 @@ public class Point implements Comparable<Point> {
     // slope between this point and that point
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
-        
+        if (that ==  null)
+            throw new java.lang.NullPointerException();
         if (this.y == that.y)
             return (1.0-1.0)/1;
         if (this.x == that.x) {
@@ -61,6 +62,8 @@ public class Point implements Comparable<Point> {
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        if (that ==  null)
+            throw new java.lang.NullPointerException();
         if (this.y < that.y)
             return -1;
         else if (this.y == that.y) {
@@ -81,6 +84,8 @@ public class Point implements Comparable<Point> {
     {
         public int compare(Point p1, Point p2) {
           
+            if (p1 ==  null || p2 == null)
+                throw new java.lang.NullPointerException();
             double slope1 = slopeTo(p1);
             double slope2 = slopeTo(p2);
             

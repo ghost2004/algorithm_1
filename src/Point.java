@@ -44,15 +44,16 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
         if (that ==  null)
             throw new java.lang.NullPointerException();
-        if (this.y == that.y)
-            return (1.0-1.0)/1;
         if (this.x == that.x) {
             if (this.y == that.y)
                 return Double.NEGATIVE_INFINITY;
             else
                 return Double.POSITIVE_INFINITY;
         }
-            
+           
+        if (this.y == that.y)
+            return (1.0-1.0)/1;
+        
         
         return ((that.y - this.y)/((double) that.x - this.x));
                     

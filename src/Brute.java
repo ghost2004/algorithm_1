@@ -19,7 +19,7 @@ public class Brute {
             p[i] = pointArray[flag[i]];
         if (p[0].SLOPE_ORDER.compare(p[1], p[2]) == 0 
             && p[0].SLOPE_ORDER.compare(p[2], p[3]) == 0) {
-            StdOut.print(POINTNUM+": ");
+            //StdOut.print(POINTNUM+": ");
             for (int j = 0; j < POINTNUM -1; j++)
                 StdOut.print(p[j].toString()+" -> ");
             StdOut.println(p[POINTNUM -1]);

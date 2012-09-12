@@ -42,7 +42,7 @@ public class Fast {
                 else {
                     if (vector.size() >= POINTNUM) {
                         int num = vector.size() + 1;
-                        StdOut.print(num+": ");
+                        //StdOut.print(num+": ");
                         StdOut.print(base.toString()+" -> ");
                         printPoints(vector);
                         base.drawTo(vector.elementAt(vector.size()-1));

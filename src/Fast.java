@@ -45,6 +45,7 @@ public class Fast {
                         StdOut.print(num+": ");
                         StdOut.print(base.toString()+" -> ");
                         printPoints(vector);
+                        base.drawTo(vector.elementAt(vector.size()-1));
                     }
                     slope = curSlope;
                     vector.clear();
@@ -58,6 +59,7 @@ public class Fast {
                 StdOut.print(num+": ");
                 StdOut.print(base.toString()+" -> ");
                 printPoints(vector);
+                base.drawTo(vector.elementAt(vector.size()-1));
             }
             
             vector.clear();
@@ -81,6 +83,10 @@ public class Fast {
     public static void main(String[] args) {
         if (args.length < 1)
             return;
+        // rescale coordinates and turn on animation mode
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        StdDraw.show(0);
         
         String filename = args[0];
         
@@ -105,5 +111,9 @@ public class Fast {
         pointArray = pArray;
                    
         findPoints();
+        
+
+        // display to screen all at once
+        StdDraw.show(0);
     }
 }

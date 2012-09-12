@@ -23,6 +23,7 @@ public class Brute {
             for (int j = 0; j < POINTNUM -1; j++)
                 StdOut.print(p[j].toString()+" -> ");
             StdOut.println(p[POINTNUM -1]);
+            p[0].drawTo(p[3]);
         }
     }
     
@@ -45,6 +46,12 @@ public class Brute {
         if (args.length < 1)
             return;
         
+        // rescale coordinates and turn on animation mode
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        StdDraw.show(0);
+       
+        
         String filename = args[0];
         
         In in = new In(filename);
@@ -55,6 +62,7 @@ public class Brute {
             int y = in.readInt();
             Point p = new Point(x, y);
             pArray[i] = p;
+            p.draw();
         }
 
         
@@ -66,13 +74,11 @@ public class Brute {
         Arrays.sort(pArray);
         
         pointArray = pArray;
-        // rescale coordinates and turn on animation mode
-        StdDraw.setXscale(0, 32768);
-        StdDraw.setYscale(0, 32768);
-        StdDraw.show(0);
-       
+
         findPoints();
        
 
+        // display to screen all at once
+        StdDraw.show(0);
     }
 }

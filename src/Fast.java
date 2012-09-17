@@ -47,17 +47,20 @@ public class Fast {
             for (j = i + 1; j < pointArray.length; j++) {
                 curSlope = base.slopeTo(sortArray[j]);
                 String ps = slopeString(base, curSlope);
-                if (slopeChecker.contains(ps))
+                //StdOut.println("Check "+ps);
+                if (slopeChecker.contains(ps)) {
+                    //StdOut.println("It is there !");
                     continue;
+                }
                 if (slope == curSlope) {
                     vector.add(sortArray[j]);
                 }
                 else {
                     if (vector.size() >= POINTNUM) {
-                        int num = vector.size() + 1;
+                        //int num = vector.size() + 1;
                         //StdOut.print(num+": ");
                         StdOut.print(base.toString()+" -> ");
-                        printPoints(vector, curSlope);
+                        printPoints(vector, slope);
                         base.drawTo(vector.elementAt(vector.size()-1));
 
                     }
@@ -69,7 +72,7 @@ public class Fast {
             }
             
             if (vector.size() >= POINTNUM) {
-                int num = vector.size() + 1;
+                //int num = vector.size() + 1;
                 //StdOut.print(num+": ");
                 StdOut.print(base.toString()+" -> ");
                 printPoints(vector, slope);
@@ -90,6 +93,7 @@ public class Fast {
             StdOut.print(point.toString());
             String ps = slopeString(point, slope);
             slopeChecker.add(ps);
+
             if (iter.hasNext())
                 StdOut.print(" -> ");
         }

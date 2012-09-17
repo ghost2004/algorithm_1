@@ -1,10 +1,11 @@
 import java.util.Arrays;
 import java.util.Vector;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class Fast {
     private static Point[] pointArray;
-    
+    private static HashSet<String> slopeChecker;
    
     private static final int POINTNUM = 3;
     public Fast() {
@@ -12,10 +13,17 @@ public class Fast {
     }
     
     
+    private static String slopeString(Point p, double slope) {
+        return p.toString()+new Double(slope).toString();
+    }
+    
+
+    
+    
     private static void findPoints() {
         int j;
         
-        
+        slopeChecker = new HashSet<String>();
         Vector<Point> vector = new Vector<Point>();
         
         for (int i = 1; i <= pointArray.length - POINTNUM; i++) {
@@ -33,9 +41,14 @@ public class Fast {
 
             vector.add(sortArray[i]);
             double slope = base.slopeTo(sortArray[i]);
+            double curSlope = slope;
+            
            
             for (j = i + 1; j < pointArray.length; j++) {
-                double curSlope = base.slopeTo(sortArray[j]);
+                curSlope = base.slopeTo(sortArray[j]);
+                String ps = slopeString(base, curSlope);
+                if (slopeChecker.contains(ps))
+                    continue;
                 if (slope == curSlope) {
                     vector.add(sortArray[j]);
                 }
@@ -44,8 +57,9 @@ public class Fast {
                         int num = vector.size() + 1;
                         //StdOut.print(num+": ");
                         StdOut.print(base.toString()+" -> ");
-                        printPoints(vector);
+                        printPoints(vector, curSlope);
                         base.drawTo(vector.elementAt(vector.size()-1));
+
                     }
                     slope = curSlope;
                     vector.clear();
@@ -58,7 +72,7 @@ public class Fast {
                 int num = vector.size() + 1;
                 //StdOut.print(num+": ");
                 StdOut.print(base.toString()+" -> ");
-                printPoints(vector);
+                printPoints(vector, slope);
                 base.drawTo(vector.elementAt(vector.size()-1));
             }
             
@@ -67,12 +81,15 @@ public class Fast {
         
     }
     
-    private static void printPoints(Vector<Point> vector) {
+    private static void printPoints(Vector<Point> vector, double slope) {
     
         Iterator<Point> iter = vector.iterator();
         
         while (iter.hasNext()) {
-            StdOut.print(iter.next().toString());
+            Point point = iter.next();
+            StdOut.print(point.toString());
+            String ps = slopeString(point, slope);
+            slopeChecker.add(ps);
             if (iter.hasNext())
                 StdOut.print(" -> ");
         }

@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class Fast {
     private static Point[] pointArray;
     private static HashSet<String> slopeChecker;
+ 
    
     private static final int POINTNUM = 3;
     public Fast() {
@@ -18,12 +19,102 @@ public class Fast {
     }
     
 
-    
-    
+    private static class PSlope  implements Comparable<PSlope>
+    {
+        private Point point;
+        private double slope;
+        public PSlope(Point p, double s) {
+            this.point = p;
+            this.slope = s;
+        }
+        
+        public int compareTo(PSlope that) {
+            if (this.slope > that.slope)
+                return 1;
+            else if (this.slope < that.slope)
+                return -1;
+            else 
+                return 0;
+        }
+        
+    }
+
     private static void findPoints() {
         int j;
         
         slopeChecker = new HashSet<String>();
+        Vector<Point> vector = new Vector<Point>();
+        
+        
+        for (int i = 1; i <= pointArray.length - POINTNUM; i++) {
+            // Base point for this loop
+            Point base = pointArray[i-1];
+            
+            // the points available in this loop
+            int size = pointArray.length - i;
+            
+            // Initialize the array
+
+            PSlope[] psArray = new PSlope[size];
+            for (j = i; j < pointArray.length; j++) {
+                psArray[j-i] = new PSlope(pointArray[j], 
+                        base.slopeTo(pointArray[j]));
+            }
+            
+            // Sort the array by slope
+            Arrays.sort(psArray);
+         
+            // put the lowest one into queue
+            vector.add(psArray[0].point);
+            double slope = psArray[0].slope;
+            double curSlope = slope;
+           
+            for (j = 1; j < size; j++) {
+                curSlope = psArray[j].slope;
+                String ps = slopeString(base, curSlope);
+                //StdOut.println("Check "+ps);
+                if (slopeChecker.contains(ps)) {
+                    //StdOut.println("It is there !");
+                    continue;
+                }
+                if (slope == curSlope) {
+                    vector.add(psArray[j].point);
+                }
+                else {
+                    if (vector.size() >= POINTNUM) {
+                        //int num = vector.size() + 1;
+                        //StdOut.print(num+": ");
+                        StdOut.print(base.toString()+" -> ");
+                        printPoints(vector, slope);
+                        base.drawTo(vector.elementAt(vector.size()-1));
+
+                    }
+                    slope = curSlope;
+                    vector.clear();
+                    vector.add(psArray[j].point);
+                }
+                    
+            }
+            
+            if (vector.size() >= POINTNUM) {
+                //int num = vector.size() + 1;
+                //StdOut.print(num+": ");
+                StdOut.print(base.toString()+" -> ");
+                printPoints(vector, slope);
+                base.drawTo(vector.elementAt(vector.size()-1));
+            }
+            
+            vector.clear();
+        }
+        
+    }
+
+    // Older version , no longer used
+    /*
+    private static void findPoints2() {
+        int j;
+        
+        slopeChecker = new TreeSet<String>();
         Vector<Point> vector = new Vector<Point>();
         
         for (int i = 1; i <= pointArray.length - POINTNUM; i++) {
@@ -83,7 +174,7 @@ public class Fast {
         }
         
     }
-    
+    */
     private static void printPoints(Vector<Point> vector, double slope) {
     
         Iterator<Point> iter = vector.iterator();
@@ -111,6 +202,8 @@ public class Fast {
         
         String filename = args[0];
         
+        long start = System.currentTimeMillis(); 
+        
         Point[] pArray;
         
         In in = new In(filename);
@@ -132,7 +225,9 @@ public class Fast {
         pointArray = pArray;
                    
         findPoints();
+        long end = System.currentTimeMillis();
         
+        StdOut.println("Time used: "+(end-start));
 
         // display to screen all at once
         StdDraw.show(0);

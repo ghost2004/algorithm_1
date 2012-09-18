@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class Fast {
     private static Point[] pointArray;
     private static HashSet<String> slopeChecker;
+    private static boolean[] usedFlag;
  
    
     private static final int POINTNUM = 3;
@@ -23,9 +24,11 @@ public class Fast {
     {
         private Point point;
         private double slope;
-        public PSlope(Point p, double s) {
+        private int index;
+        public PSlope(Point p, double s, int i) {
             this.point = p;
             this.slope = s;
+            this.index = i;
         }
         
         public int compareTo(PSlope that) {
@@ -43,8 +46,11 @@ public class Fast {
         int j;
         
         slopeChecker = new HashSet<String>();
-        Vector<Point> vector = new Vector<Point>();
+        Vector<PSlope> vector = new Vector<PSlope>();
+        usedFlag = new boolean[pointArray.length];
         
+        for (j = 0; j < pointArray.length; j++)
+            usedFlag[j] = false;
         
         for (int i = 1; i <= pointArray.length - POINTNUM; i++) {
             // Base point for this loop
@@ -58,27 +64,29 @@ public class Fast {
             PSlope[] psArray = new PSlope[size];
             for (j = i; j < pointArray.length; j++) {
                 psArray[j-i] = new PSlope(pointArray[j], 
-                        base.slopeTo(pointArray[j]));
+                        base.slopeTo(pointArray[j]), j);
             }
             
             // Sort the array by slope
             Arrays.sort(psArray);
          
             // put the lowest one into queue
-            vector.add(psArray[0].point);
+            vector.add(psArray[0]);
             double slope = psArray[0].slope;
             double curSlope = slope;
            
             for (j = 1; j < size; j++) {
                 curSlope = psArray[j].slope;
-                String ps = slopeString(base, curSlope);
-                //StdOut.println("Check "+ps);
-                if (slopeChecker.contains(ps)) {
-                    //StdOut.println("It is there !");
-                    continue;
+                if (usedFlag[psArray[j].index]) {
+                    String ps = slopeString(base, curSlope);
+                    //StdOut.println("Check "+ps);
+                    if (slopeChecker.contains(ps)) {
+                        //StdOut.println("It is there !");
+                        continue;
+                    }
                 }
                 if (slope == curSlope) {
-                    vector.add(psArray[j].point);
+                    vector.add(psArray[j]);
                 }
                 else {
                     if (vector.size() >= POINTNUM) {
@@ -86,12 +94,12 @@ public class Fast {
                         //StdOut.print(num+": ");
                         StdOut.print(base.toString()+" -> ");
                         printPoints(vector, slope);
-                        base.drawTo(vector.elementAt(vector.size()-1));
+                        base.drawTo(vector.elementAt(vector.size()-1).point);
 
                     }
                     slope = curSlope;
                     vector.clear();
-                    vector.add(psArray[j].point);
+                    vector.add(psArray[j]);
                 }
                     
             }
@@ -101,7 +109,7 @@ public class Fast {
                 //StdOut.print(num+": ");
                 StdOut.print(base.toString()+" -> ");
                 printPoints(vector, slope);
-                base.drawTo(vector.elementAt(vector.size()-1));
+                base.drawTo(vector.elementAt(vector.size()-1).point);
             }
             
             vector.clear();
@@ -175,15 +183,17 @@ public class Fast {
         
     }
     */
-    private static void printPoints(Vector<Point> vector, double slope) {
+    private static void printPoints(Vector<PSlope> vector, double slope) {
     
-        Iterator<Point> iter = vector.iterator();
+        Iterator<PSlope> iter = vector.iterator();
         
         while (iter.hasNext()) {
-            Point point = iter.next();
+            PSlope pslope = iter.next();
+            Point point = pslope.point;
             StdOut.print(point.toString());
             String ps = slopeString(point, slope);
             slopeChecker.add(ps);
+            usedFlag[pslope.index] = true;
 
             if (iter.hasNext())
                 StdOut.print(" -> ");

@@ -186,6 +186,7 @@ public class Fast {
     private static void printPoints(Vector<PSlope> vector, double slope) {
     
         Iterator<PSlope> iter = vector.iterator();
+        int vsize = vector.size();
         
         while (iter.hasNext()) {
             PSlope pslope = iter.next();
@@ -193,7 +194,8 @@ public class Fast {
             StdOut.print(point.toString());
             String ps = slopeString(point, slope);
             slopeChecker.add(ps);
-            usedFlag[pslope.index] = true;
+            if (vsize >= 4)
+                usedFlag[pslope.index] = true;
 
             if (iter.hasNext())
                 StdOut.print(" -> ");

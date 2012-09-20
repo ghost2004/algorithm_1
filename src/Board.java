@@ -2,26 +2,33 @@ import java.util.Vector;
 public class Board {
     
     private int N;
-    private int[][] block;
+    private int[][] tiles;
     
     private int freeRow;
     private int freeCol;
+    
+    private int manhattanValue;
+    private int hammingValue;
     
     // construct a board from an N-by-N array of blocks
     // (where blocks[i][j] = block in row i, column j)
     public Board(int[][] blocks) {
         N = blocks.length;
-        block = new int[N][N];
+        tiles = new int[N][N];
     
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++) {
-                block[i][j] = blocks[i][j];
-                if (block[i][j] == 0) {
+                tiles[i][j] = blocks[i][j];
+                if (tiles[i][j] == 0) {
                     freeRow = i;
                     freeCol = j;
                 }
 
             }
+        
+        manhattanValue = -1;
+        
+        hammingValue = -1;
     }
     
     // board dimension N
@@ -31,38 +38,45 @@ public class Board {
     
     // number of blocks out of place
     public int hamming() {
+        
+        if (hammingValue != -1)
+            return hammingValue;
         int out = 0;
-        
-        
         
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++) {
                 int idealNum = i*N + j +1;
-                if (block[i][j] != idealNum 
-                        && block[i][j] != 0)
+                if (tiles[i][j] != idealNum 
+                        && tiles[i][j] != 0)
                     out++;
 
             }
         
+        hammingValue = out;
         
         return out;
     }
     
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
+        
+        if (manhattanValue != -1)
+            return manhattanValue;
         int out = 0;
 
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++) {
                 int idealNum = i*N + j +1;
-                if (block[i][j] != idealNum 
-                        && block[i][j] != 0) {
-                    int row = block[i][j] / N;
-                    int col = block[i][j] % N;
+                if (tiles[i][j] != idealNum 
+                        && tiles[i][j] != 0) {
+                    int row = tiles[i][j] / N;
+                    int col = tiles[i][j] % N;
                     out += Math.abs(row - i) + Math.abs(col -j);
                     
                 }
             }
+        
+        manhattanValue = out;
         
         return out;
     }
@@ -74,7 +88,7 @@ public class Board {
         for (int i = 0; i < N*N -1; i++) {
             int row = i / N;
             int col = i % N;
-            if (block[row][col] != i+1)
+            if (tiles[row][col] != i+1)
                 return false;
         }
         
@@ -83,15 +97,15 @@ public class Board {
     
     // a board obtained by exchanging two adjacent blocks in the same row
     public Board twin() {
-        Board twinBoard = new Board(block);
+        Board twinBoard = new Board(tiles);
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N -1; j++) {
-                if (twinBoard.block[i][j] != 0 
-                        && twinBoard.block[i][j+1] != 0)
+                if (twinBoard.tiles[i][j] != 0 
+                        && twinBoard.tiles[i][j+1] != 0)
                 {
-                    int t = twinBoard.block[i][j];
-                    twinBoard.block[i][j] = twinBoard.block[i][j+1];
-                    twinBoard.block[i][j+1] = t;
+                    int t = twinBoard.tiles[i][j];
+                    twinBoard.tiles[i][j] = twinBoard.tiles[i][j+1];
+                    twinBoard.tiles[i][j+1] = t;
                     return twinBoard;
                 }
             }
@@ -115,7 +129,7 @@ public class Board {
         
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++) {
-                if (block[i][j] != Y.block[i][j])
+                if (tiles[i][j] != Y.tiles[i][j])
                     return false;
 
             }
@@ -130,36 +144,36 @@ public class Board {
         
         // Move the top one into the empty slot
         if (freeRow != 0) {
-            next = new Board(this.block);
-            next.block[freeRow][freeCol] = next.block[freeRow-1][freeCol];
-            next.block[freeRow-1][freeCol] = 0;
+            next = new Board(this.tiles);
+            next.tiles[freeRow][freeCol] = next.tiles[freeRow-1][freeCol];
+            next.tiles[freeRow-1][freeCol] = 0;
             next.freeRow -= 1;
             vector.add(next);
         }
         
         // Move the left one into the empty slot
         if (freeCol != 0) {
-            next = new Board(this.block);
-            next.block[freeRow][freeCol] = next.block[freeRow][freeCol-1];
-            next.block[freeRow][freeCol-1] = 0;
+            next = new Board(this.tiles);
+            next.tiles[freeRow][freeCol] = next.tiles[freeRow][freeCol-1];
+            next.tiles[freeRow][freeCol-1] = 0;
             next.freeCol -= 1;
             vector.add(next);            
         }
         
         // Move the bottom one into the empty slot
         if (freeRow != N-1) {
-            next = new Board(this.block);
-            next.block[freeRow][freeCol] = next.block[freeRow+1][freeCol];
-            next.block[freeRow+1][freeCol] = 0;
+            next = new Board(this.tiles);
+            next.tiles[freeRow][freeCol] = next.tiles[freeRow+1][freeCol];
+            next.tiles[freeRow+1][freeCol] = 0;
             next.freeRow += 1;
             vector.add(next);            
         }      
         
         // Move the right one into the empty slot
         if (freeCol != N-1) {
-            next = new Board(this.block);
-            next.block[freeRow][freeCol] = next.block[freeRow][freeCol+1];
-            next.block[freeRow][freeCol+1] = 0;
+            next = new Board(this.tiles);
+            next.tiles[freeRow][freeCol] = next.tiles[freeRow][freeCol+1];
+            next.tiles[freeRow][freeCol+1] = 0;
             next.freeCol += 1;
             vector.add(next);            
         }            
@@ -168,15 +182,14 @@ public class Board {
     
     // string representation of the board 
     public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append(N+"\n");
+        StringBuilder s = new StringBuilder();
+        s.append(N + "\n");
         for (int i = 0; i < N; i++) {
-            buf.append(" ");
             for (int j = 0; j < N; j++) {
-                buf.append(block[i][j]+"  ");
+                s.append(String.format("%2d ", tiles[i][j]));
             }
-            buf.append("\n");
+            s.append("\n");
         }
-        return buf.toString();
+        return s.toString();
     }
 }

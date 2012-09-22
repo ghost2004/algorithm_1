@@ -33,9 +33,9 @@ public class Solver {
         }
             
         this.main = initial;
-        list = new LinkedList<Board>();
-        
+                
         if (main.isGoal()) {
+            list = new LinkedList<Board>();
             solvable = true;
             minMoves = 0;
             list.add(main);
@@ -121,7 +121,7 @@ public class Solver {
                }
             }  // end of twin solution
         }  // end of main search
-        
+        list = new LinkedList<Board>();
         list.addFirst(goal);
         list.addFirst(mainPQKey.state);
         while (mainPQKey.parent != null) {

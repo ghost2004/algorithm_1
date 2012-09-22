@@ -69,8 +69,8 @@ public class Board {
                 int idealNum = i*N + j +1;
                 if (tiles[i][j] != idealNum 
                         && tiles[i][j] != 0) {
-                    int row = tiles[i][j] / N;
-                    int col = tiles[i][j] % N;
+                    int row = (tiles[i][j] - 1) / N;
+                    int col = (tiles[i][j] - 1) % N;
                     out += Math.abs(row - i) + Math.abs(col -j);
                     
                 }

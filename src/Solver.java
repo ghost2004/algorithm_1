@@ -158,6 +158,8 @@ public class Solver {
             for (int j = 0; j < N; j++)
                 blocks[i][j] = in.readInt();
         Board initial = new Board(blocks);
+        
+        //StdOut.println(initial.manhattan());
 
         // solve the puzzle
         Solver solver = new Solver(initial);

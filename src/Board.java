@@ -2,7 +2,7 @@ import java.util.Vector;
 public class Board {
     
     private int N;
-    private int[][] tiles;
+    private char[][] tiles;
     
     private int freeRow;
     private int freeCol;
@@ -14,11 +14,30 @@ public class Board {
     // (where blocks[i][j] = block in row i, column j)
     public Board(int[][] blocks) {
         N = blocks.length;
-        tiles = new int[N][N];
+        tiles = new char[N][N];
     
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++) {
-                tiles[i][j] = blocks[i][j];
+                tiles[i][j] = (char) blocks[i][j];
+                if (tiles[i][j] == 0) {
+                    freeRow = i;
+                    freeCol = j;
+                }
+
+            }
+        
+        manhattanValue = -1;
+        
+        hammingValue = -1;
+    }
+    
+    private Board(char[][] t) {
+        N = t.length;
+        tiles = new char[N][N];
+    
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++) {
+                tiles[i][j] = t[i][j];
                 if (tiles[i][j] == 0) {
                     freeRow = i;
                     freeCol = j;
@@ -95,6 +114,7 @@ public class Board {
         return out;
     }
     
+    
     // a board obtained by exchanging two adjacent blocks in the same row
     public Board twin() {
         Board twinBoard = new Board(tiles);
@@ -103,7 +123,7 @@ public class Board {
                 if (twinBoard.tiles[i][j] != 0 
                         && twinBoard.tiles[i][j+1] != 0)
                 {
-                    int t = twinBoard.tiles[i][j];
+                    char t = twinBoard.tiles[i][j];
                     twinBoard.tiles[i][j] = twinBoard.tiles[i][j+1];
                     twinBoard.tiles[i][j+1] = t;
                     return twinBoard;
@@ -186,7 +206,7 @@ public class Board {
         s.append(N + "\n");
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s.append(String.format("%2d ", tiles[i][j]));
+                s.append(String.format("%2d ", (short) tiles[i][j]));
             }
             s.append("\n");
         }

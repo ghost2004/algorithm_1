@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Fast {
     private static Point[] pointArray;
     private static HashSet<String> slopeChecker;
-    private static boolean[] usedFlag;
+    //private static boolean[] usedFlag;
  
    
     private static final int POINTNUM = 3;
@@ -47,10 +47,10 @@ public class Fast {
         
         slopeChecker = new HashSet<String>();
         Vector<PSlope> vector = new Vector<PSlope>();
-        usedFlag = new boolean[pointArray.length];
+        //usedFlag = new boolean[pointArray.length];
         
-        for (j = 0; j < pointArray.length; j++)
-            usedFlag[j] = false;
+        //for (j = 0; j < pointArray.length; j++)
+        //    usedFlag[j] = false;
         
         for (int i = 1; i <= pointArray.length - POINTNUM; i++) {
             // Base point for this loop
@@ -77,14 +77,7 @@ public class Fast {
            
             for (j = 1; j < size; j++) {
                 curSlope = psArray[j].slope;
-                if (usedFlag[psArray[j].index]) {
-                    String ps = slopeString(base, curSlope);
-                    //StdOut.println("Check "+ps);
-                    if (slopeChecker.contains(ps)) {
-                        //StdOut.println("It is there !");
-                        continue;
-                    }
-                }
+                
                 if (slope == curSlope) {
                     vector.add(psArray[j]);
                 }
@@ -92,6 +85,18 @@ public class Fast {
                     if (vector.size() >= POINTNUM) {
                         //int num = vector.size() + 1;
                         //StdOut.print(num+": ");
+                        String ps = slopeString(base, slope);
+                        //StdOut.println("Check "+ps);
+                        if (slopeChecker.contains(ps)) {
+                            //StdOut.println("It is there !");
+                            slope = curSlope;
+                            vector.clear();
+                            vector.add(psArray[j]);
+                            continue;
+                        }
+                        /*if (usedFlag[psArray[j].index]) {
+                            
+                        }*/
                         StdOut.print(base.toString()+" -> ");
                         printPoints(vector, slope);
                         base.drawTo(vector.elementAt(vector.size()-1).point);
@@ -107,9 +112,13 @@ public class Fast {
             if (vector.size() >= POINTNUM) {
                 //int num = vector.size() + 1;
                 //StdOut.print(num+": ");
-                StdOut.print(base.toString()+" -> ");
-                printPoints(vector, slope);
-                base.drawTo(vector.elementAt(vector.size()-1).point);
+                String ps = slopeString(base, slope);
+                //StdOut.println("Check "+ps);
+                if (!slopeChecker.contains(ps)) {
+                    StdOut.print(base.toString()+" -> ");
+                    printPoints(vector, slope);
+                    base.drawTo(vector.elementAt(vector.size()-1).point);
+                }
             }
             
             vector.clear();
@@ -186,7 +195,7 @@ public class Fast {
     private static void printPoints(Vector<PSlope> vector, double slope) {
     
         Iterator<PSlope> iter = vector.iterator();
-        int vsize = vector.size();
+        //int vsize = vector.size();
         
         while (iter.hasNext()) {
             PSlope pslope = iter.next();
@@ -194,8 +203,8 @@ public class Fast {
             StdOut.print(point.toString());
             String ps = slopeString(point, slope);
             slopeChecker.add(ps);
-            if (vsize >= 4)
-                usedFlag[pslope.index] = true;
+            //if (vsize >= 4)
+            //    usedFlag[pslope.index] = true;
 
             if (iter.hasNext())
                 StdOut.print(" -> ");
@@ -214,7 +223,7 @@ public class Fast {
         
         String filename = args[0];
         
-        long start = System.currentTimeMillis(); 
+        //long start = System.currentTimeMillis(); 
         
         Point[] pArray;
         
@@ -237,9 +246,9 @@ public class Fast {
         pointArray = pArray;
                    
         findPoints();
-        long end = System.currentTimeMillis();
+        //long end = System.currentTimeMillis();
         
-        StdOut.println("Time used: "+(end-start));
+        //StdOut.println("Time used: "+(end-start));
 
         // display to screen all at once
         StdDraw.show(0);

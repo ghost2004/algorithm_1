@@ -3,9 +3,9 @@ public class Deque<Item> implements Iterable<Item> {
     
     private class DequeNode
     {
-        public Item item;
-        public DequeNode prev;
-        public DequeNode next;
+        private Item item;
+        private DequeNode prev;
+        private DequeNode next;
     }
     
     private DequeNode first;

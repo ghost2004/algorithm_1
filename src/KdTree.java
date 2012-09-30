@@ -231,12 +231,12 @@ public class KdTree {
             }
             
             if (node.lb != null 
-                && node.lb.rect.distanceSquaredTo(p) < minLen) {
+                && node.lb.rect.distanceTo(p) < minLen) {
                 queue.addFirst(node.lb);
             }
             
             if (node.rt != null 
-                && node.rt.rect.distanceSquaredTo(p) < minLen) {
+                && node.rt.rect.distanceTo(p) < minLen) {
                 queue.addFirst(node.rt);
             }
                 

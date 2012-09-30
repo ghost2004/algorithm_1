@@ -1,3 +1,4 @@
+import java.util.Vector;
 
 public class PointSET {
     private SET<Point2D> pointSet;
@@ -37,7 +38,7 @@ public class PointSET {
     
     // all points in the set that are inside the rectangle
     public Iterable<Point2D> range(RectHV rect) {
-        SET<Point2D> out = new SET<Point2D>();
+        Vector<Point2D> out = new Vector<Point2D>();
         for (Point2D x : pointSet) {
             if (rect.contains(x))
                 out.add(x);

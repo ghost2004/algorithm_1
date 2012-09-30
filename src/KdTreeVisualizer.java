@@ -12,9 +12,11 @@ public class KdTreeVisualizer {
 
     public static void main(String[] args) {
         StdDraw.show(0);
+        int cnt = 0;
         KdTree kdtree = new KdTree();
         while (true) {
             if (StdDraw.mousePressed()) {
+                cnt++;
                 double x = StdDraw.mouseX();
                 double y = StdDraw.mouseY();
                 System.out.printf("%8.6f %8.6f\n", x, y);
@@ -22,6 +24,7 @@ public class KdTreeVisualizer {
                 kdtree.insert(p);
                 StdDraw.clear();
                 kdtree.draw();
+                System.out.println(kdtree.size()+" "+cnt);
             }
             StdDraw.show(50);
         }

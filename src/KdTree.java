@@ -58,36 +58,36 @@ public class KdTree {
                 }
                 else {
                     // for other level nodes
-                    if (level % 2 == 0) {
-                        // Even Level, use x-coordinate 
+                    if (parent.level % 2 == 0) {
+                        // parent even Level, use x-coordinate 
                         if (p.x() <= parent.point.x()) {
                             // left rectangle
                             out.rect = new RectHV(parent.rect.xmin(),
                                     parent.rect.ymin(),
-                                    p.x(),
+                                    parent.point.x(),
                                     parent.rect.ymax());
                         } else {
                             // right rectangle
-                            out.rect = new RectHV(p.x(),
+                            out.rect = new RectHV(parent.point.x(),
                                     parent.rect.ymin(),
                                     parent.rect.xmax(),
                                     parent.rect.ymax());
                         }
                         
                     } else {
-                        // Odd Level, use y-coordinate
+                        // Parent Odd Level, use y-coordinate
                         if (p.y() <= parent.point.y()) {
                             // upper rectangle
                             out.rect = new RectHV(parent.rect.xmin(),   
-                                    p.y(),
+                                    parent.rect.ymin(),
                                     parent.rect.xmax(),
-                                    parent.rect.ymax());
+                                    parent.point.y());
                         } else {
                             // bottom rectangle
                             out.rect = new RectHV(parent.rect.xmin(), 
-                                    parent.rect.ymin(),
+                                    parent.point.y(),
                                     parent.rect.xmax(),
-                                    p.y());
+                                    parent.rect.ymax());
                         }
                     }
                 }
@@ -103,8 +103,8 @@ public class KdTree {
             || ((level % 2 == 1) && (p.y() <= node.point.y()))) {
             node.lb = put(node.lb, p, level+1, node);
         }
-        else if (((level % 2 == 0) && (p.x() <= node.point.x())) 
-                || ((level % 2 == 1) && (p.y() <= node.point.y()))) {
+        else if (((level % 2 == 0) && (p.x() > node.point.x())) 
+                || ((level % 2 == 1) && (p.y() > node.point.y()))) {
             node.rt = put(node.rt, p, level+1, node);
         }
         
@@ -137,7 +137,7 @@ public class KdTree {
 
     // does the set contain the point p?
     public boolean contains(Point2D p) {
-        return (get(p) == null);
+        return (get(p) != null);
     }
     
     private void drawNode(KDNode node, KDNode parent) {
@@ -192,7 +192,7 @@ public class KdTree {
                 searchRect(node.lb, rect, result);
             
             // check if the right subtree is in range
-            if (node.lb != null && node.rt.rect.intersects(rect))
+            if (node.rt != null && node.rt.rect.intersects(rect))
                 searchRect(node.rt, rect, result);
             
         }

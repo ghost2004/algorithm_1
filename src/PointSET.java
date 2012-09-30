@@ -49,7 +49,7 @@ public class PointSET {
     
     // a nearest neighbor in the set to p; null if set is empty
     public Point2D nearest(Point2D p) {
-        double distance = Double.NEGATIVE_INFINITY;
+        double distance = Double.POSITIVE_INFINITY;
         Point2D out = null;
         for (Point2D x : pointSet) {
             double d = p.distanceTo(x);
